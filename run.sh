@@ -14,7 +14,8 @@ SEED_KEY=""
 
 bootstrap "mainnet" 16 "$DATA_DIR"
 
-# Override address for mainnet16 since sporks.json has the wrong port
-SEED_ADDRESS="access-007.mainnet16.nodes.onflow.org:3570"
+export GCP_BUCKET="$GCP_BUCKET"
+export SEED_ADDRESS="access-007.mainnet16.nodes.onflow.org:3570" # "$SEED_ADDRESS" sporks.json is wrong currently
+export SEED_KEY="$SEED_KEY"
 
 /usr/bin/supervisord -c /supervisord.conf
