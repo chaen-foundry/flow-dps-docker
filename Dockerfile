@@ -39,7 +39,7 @@ RUN  --mount=type=cache,target=/go/pkg/mod \
 FROM ubuntu:latest AS production
 
 RUN apt-get update
-RUN apt-get -y install supervisor wget
+RUN apt-get -y install supervisor wget curl jq
 
 COPY --from=build-live /dps-live-index /bin/dps-live-index
 
