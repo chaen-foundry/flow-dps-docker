@@ -3,16 +3,13 @@ FROM golang:1.17-buster AS build-setup
 RUN apt-get update
 RUN apt-get -y install cmake zip sudo git
 
-#ENV FLOW_DPS_REPO="https://github.com/optakt/flow-dps"
 ENV FLOW_DPS_REPO="https://github.com/dapperlabs/flow-dps"
-#ENV FLOW_DPS_BRANCH=v0.23
-ENV FLOW_DPS_BRANCH=m4ksio/v0.24-test
+ENV FLOW_DPS_BRANCH=m4ksio/v0.24
 
 ENV FLOW_DPS_DOCKER_REPO="https://github.com/chaen-foundry/flow-dps-docker"
 ENV FLOW_DPS_ROSETTA_DOCKER_BRANCH=master
 
 ENV FLOW_GO_REPO="https://github.com/onflow/flow-go"
-#ENV FLOW_GO_BRANCH=v0.23.3
 ENV FLOW_GO_BRANCH=v0.24.7
 
 RUN mkdir /dps /docker /flow-go
@@ -52,6 +49,6 @@ COPY --from=build-setup /docker/run.sh /run.sh
 
 RUN chmod a+x /run.sh
 
-EXPOSE 8080 8099
+EXPOSE 8099
 
 CMD ["bash", "-x", "/run.sh"]
