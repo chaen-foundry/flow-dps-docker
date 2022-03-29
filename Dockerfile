@@ -10,7 +10,7 @@ ENV FLOW_DPS_DOCKER_REPO="https://github.com/chaen-foundry/flow-dps-docker"
 ENV FLOW_DPS_ROSETTA_DOCKER_BRANCH=master
 
 ENV FLOW_GO_REPO="https://github.com/onflow/flow-go"
-ENV FLOW_GO_BRANCH=v0.24.7
+ENV FLOW_GO_BRANCH=v0.23.10
 
 RUN mkdir /dps /docker /flow-go
 
