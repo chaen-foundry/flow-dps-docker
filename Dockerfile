@@ -27,13 +27,13 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build  \
     make -C /flow-go crypto/relic/build #prebuild crypto dependency
 
-FROM build-setup AS build
+FROM build-setup AS build-server
 
 WORKDIR /dps
 RUN  --mount=type=cache,target=/go/pkg/mod \
      --mount=type=cache,target=/root/.cache/go-build  \
-     go build -o /dps -ldflags "-extldflags -static" ./cmd/flow-dps-server && \
-     chmod a+x /dps
+     go build -o /dps-server -ldflags "-extldflags -static" ./cmd/flow-dps-server && \
+     chmod a+x /dps-server
 
 ## Add the statically linked binary to a distroless image
 FROM ubuntu:latest AS production
@@ -41,7 +41,7 @@ FROM ubuntu:latest AS production
 RUN apt-get update
 RUN apt-get -y install supervisor wget curl jq
 
-COPY --from=build /dps /bin/dps
+COPY --from=build-server /dps-server /bin/dps-server
 
 COPY --from=build-setup /docker/supervisord.conf /supervisord.conf
 COPY --from=build-setup /docker/common.sh /common.sh
