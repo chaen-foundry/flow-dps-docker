@@ -4,7 +4,7 @@ RUN apt-get update
 RUN apt-get -y install cmake zip sudo git
 
 ENV FLOW_DPS_REPO="https://github.com/foundryservices/flow-dps"
-ENV FLOW_DPS_BRANCH=0.23
+ENV FLOW_DPS_BRANCH=v0.23
 
 ENV FLOW_DPS_DOCKER_REPO="https://github.com/chaen-foundry/flow-dps-docker"
 ENV FLOW_DPS_DOCKER_BRANCH=mainnet-15
