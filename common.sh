@@ -5,6 +5,29 @@ set -e
 
 SPORKS_JSON="https://raw.githubusercontent.com/onflow/flow/master/sporks.json"
 
+function past_data() {
+
+  DOWNLOAD_URL=$1
+
+  NETWORK_DIR="$DIR"
+  INDEX_DIR="$NETWORK_DIR/index"
+
+  echo "Checking $NETWORK_DIR data"
+  if [ ! -d "$NETWORK_DIR" ]; then
+    TMP_FILE=$(mktemp -p "$DATA_DIR")
+    wget -nv "$DOWNLOAD_URL" -O "$TMP_FILE"
+
+    mkdir -p "$NETWORK_DIR"
+
+    /bin/restore-index-snapshot -c gzip -i "$INDEX_DIR" < "$TMP_FILE"
+    echo "$NETWORK_DIR data restored"
+
+    rm "$TMP_FILE"
+  else
+    echo "$NETWORK_DIR data already exists"
+  fi
+}
+
 function bootstrap() {
   NETWORK_TYPE=$1
   NETWORK_NUMBER=$2

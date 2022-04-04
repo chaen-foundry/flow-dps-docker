@@ -27,6 +27,14 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build  \
     make -C /flow-go crypto/relic/build #prebuild crypto dependency
 
+FROM build-setup AS build-restore-index
+
+WORKDIR /dps
+RUN  --mount=type=cache,target=/go/pkg/mod \
+     --mount=type=cache,target=/root/.cache/go-build  \
+     go build -o /restore-index-snapshot -ldflags "-extldflags -static" ./cmd/restore-index-snapshot && \
+     chmod a+x /restore-index-snapshot
+
 FROM build-setup AS build-server
 
 WORKDIR /dps
@@ -41,6 +49,7 @@ FROM ubuntu:latest AS production
 RUN apt-get update
 RUN apt-get -y install supervisor wget curl jq
 
+COPY --from=build-restore-index /restore-index-snapshot /bin/restore-index-snapshot
 COPY --from=build-server /dps-server /bin/dps-server
 
 COPY --from=build-setup /docker/supervisord.conf /supervisord.conf
