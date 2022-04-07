@@ -31,9 +31,9 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 FROM build-setup AS build-live
 
 WORKDIR /dps
-RUN  --mount=type=cache,target=/go/pkg/mod \
-     --mount=type=cache,target=/root/.cache/go-build  \
-     go build -o /dps-live-index -tags relic -ldflags "-extldflags -static" ./cmd/flow-dps-live && \
+     #--mount=type=cache,target=/go/pkg/mod \
+     #--mount=type=cache,target=/root/.cache/go-build  \
+RUN  go build -o /dps-live-index -tags relic -ldflags "-extldflags -static" ./cmd/flow-dps-live && \
      chmod a+x /dps-live-index
 
 ## Add the statically linked binary to a distroless image
