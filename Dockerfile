@@ -25,8 +25,8 @@ RUN ln -s /flow-go /dps/flow-go
 
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build  \
-    make -C /flow-go crypto/relic/build #prebuild crypto dependency
-    # make -C /flow-go/crypto setup
+    make -C /flow-go/crypto setup
+    # make -C /flow-go crypto/relic/build #prebuild crypto dependency
 
 FROM build-setup AS build-live
 
