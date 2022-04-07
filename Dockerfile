@@ -4,7 +4,7 @@ RUN apt-get update
 RUN apt-get -y install cmake zip sudo git
 
 ENV FLOW_DPS_REPO="https://github.com/foundryservices/flow-dps"
-ENV FLOW_DPS_BRANCH=mainnet-17
+ENV FLOW_DPS_BRANCH=mainnet-16
 
 ENV FLOW_DPS_DOCKER_REPO="https://github.com/chaen-foundry/flow-dps-docker"
 ENV FLOW_DPS_ROSETTA_DOCKER_BRANCH=master
@@ -31,9 +31,9 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 FROM build-setup AS build-live
 
 WORKDIR /dps
-     #--mount=type=cache,target=/go/pkg/mod \
-     #--mount=type=cache,target=/root/.cache/go-build  \
-RUN  go build -o /dps-live-index -tags relic -ldflags "-extldflags -static" ./cmd/flow-dps-live && \
+RUN  --mount=type=cache,target=/go/pkg/mod \
+     --mount=type=cache,target=/root/.cache/go-build  \
+     go build -o /dps-live-index -tags relic -ldflags "-extldflags -static" ./cmd/flow-dps-live && \
      chmod a+x /dps-live-index
 
 ## Add the statically linked binary to a distroless image
